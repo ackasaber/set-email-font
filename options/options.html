@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="options.css">
+</head>
+
+<body>
+    <form>
+        <label for="fontFamily">Font family:</label>
+        <input type="text" id="fontFamily" name="fontFamily"
+            placeholder="Calibri, 'Droid Sans', Helvetica, sans-serif" size="50">
+        <p class="option_help">Comma-separated list of font family names in order of preference.
+        Enclose names containing spaces in single quotes. In case none
+        of these fonts are installed on the recipient's machine, end
+        with a generic family name, e.g., <tt>sans-serif</tt> or
+        <tt>serif</tt>.</p>
+        <label for="fontSize">Font size:</label>
+        <input type="text" id="fontSize" name="fontSize"
+            placeholder="11pt" size="6">
+        <p class="option_help">Font size in CSS syntax.</p>
+    </form>
+    <script src="options.js"></script>
+</body>
+
+</html>

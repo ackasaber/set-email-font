@@ -1,0 +1,15 @@
+form {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 1.5em;
+    justify-items: start;
+}
+
+.option_help {
+    padding-left: 3em;
+    grid-column: 1 / -1;
+}
+
+tt {
+    font-size: 1rem;
+}

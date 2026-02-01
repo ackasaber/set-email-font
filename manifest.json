@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Set E-mail Font",
+    "description": "Sets a fixed default font of your choice for every new composed e-mail.",
+    "version": "0.1",
+    "author": "Lyosha Veleshko",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "aveleshko.set-email-font@addons.thunderbird.net",
+            "strict_min_version": "140.0"
+        }
+    },
+    "permissions": [
+        "compose",
+        "scripting",
+        "storage"
+    ],
+    "icons": {
+        "64": "images/icon-64px.png",
+        "32": "images/icon-32px.png",
+        "16": "images/icon-16px.png"
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": false
+    },
+    "background": {
+        "page": "background.html"
+    }
+}
