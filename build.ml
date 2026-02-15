@@ -17,6 +17,8 @@ let filelist = {|
   images/icon-16px.png
   images/icon-32px.png
   images/icon-64px.png
+  _locales
+  i18n.mjs
 |}
 
 (** Parse the input list *)
