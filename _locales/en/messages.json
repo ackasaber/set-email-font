@@ -1,0 +1,30 @@
+{
+    "addonName": {
+        "message": "Set E-mail Font",
+        "description": "Name of the add-on."
+    },
+    "addonDescription": {
+        "message": "Sets a default font of your choice for every new composed e-mail.",
+        "description": "Description of the add-on."
+    },
+    "addonAuthor": {
+        "message": "Lyosha Veleshko",
+        "description": "The add-on author."
+    },
+    "fontFamilyOption": {
+        "message": "Font family:",
+        "description": "Option name for the default font family in new e-mails."
+    },
+    "fontFamilyHelp": {
+        "message": "Comma-separated list of font family names in order of preference. Enclose names containing spaces in single quotes. In case the recipient has none of these fonts installed, end with a generic family name, e.g., <tt>sans-serif</tt> or <tt>serif</tt>.",
+        "description": "Help for the font family option."
+    },
+    "fontSizeOption": {
+        "message": "Font size:",
+        "description": "Option name for the default font size in new e-mails."
+    },
+    "fontSizeHelp": {
+        "message": "Font size in CSS syntax.",
+        "description": "Help for the font size option."
+    }
+}

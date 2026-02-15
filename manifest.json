@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "Set E-mail Font",
-    "description": "Sets a fixed default font of your choice for every new composed e-mail.",
+    "name": "__MSG_addonName__",
+    "description": "__MSG_addonDescription__",
     "version": "0.1",
-    "author": "Lyosha Veleshko",
+    "author": "__MSG_addonAuthor__",
     "browser_specific_settings": {
         "gecko": {
             "id": "aveleshko.set-email-font@addons.thunderbird.net",
@@ -26,5 +26,6 @@
     },
     "background": {
         "page": "background.html"
-    }
+    },
+    "default_locale": "en"
 }

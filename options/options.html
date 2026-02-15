@@ -4,24 +4,20 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="options.css">
+    <script type="module" src="options.js"></script>
 </head>
 
 <body>
     <form>
-        <label for="fontFamily">Font family:</label>
+        <label for="fontFamily" data-i18n-content="fontFamilyOption"></label>
         <input type="text" id="fontFamily" name="fontFamily"
             placeholder="Calibri, 'Droid Sans', Helvetica, sans-serif" size="50">
-        <p class="option_help">Comma-separated list of font family names in order of preference.
-        Enclose names containing spaces in single quotes. In case none
-        of these fonts are installed on the recipient's machine, end
-        with a generic family name, e.g., <tt>sans-serif</tt> or
-        <tt>serif</tt>.</p>
-        <label for="fontSize">Font size:</label>
+        <p class="option_help" data-i18n-content="fontFamilyHelp"></p>
+        <label for="fontSize" data-i18n-content="fontSizeOption"></label>
         <input type="text" id="fontSize" name="fontSize"
             placeholder="11pt" size="6">
-        <p class="option_help">Font size in CSS syntax.</p>
+        <p class="option_help" data-i18n-content="fontSizeHelp"></p>
     </form>
-    <script type="module" src="options.js"></script>
 </body>
 
 </html>
