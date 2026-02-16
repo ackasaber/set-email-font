@@ -16,7 +16,7 @@
         "description": "Option name for the default font family in new e-mails."
     },
     "fontFamilyHelp": {
-        "message": "Comma-separated list of font family names in order of preference. Enclose names containing spaces in single quotes. In case the recipient has none of these fonts installed, end with a generic family name, e.g., <tt>sans-serif</tt> or <tt>serif</tt>.",
+        "message": "Comma-separated list of font family names in order of preference. Enclose names containing spaces in single quotes. In case the recipient has none of these fonts installed, end with a generic family name, e.g., `sans-serif` or `serif`.",
         "description": "Help for the font family option."
     },
     "fontSizeOption": {

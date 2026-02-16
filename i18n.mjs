@@ -53,6 +53,12 @@
  *    data-i18n-content attribute instead.
  */
 
+/*
+ * The implementation was modified to replace `code fragments` in data-i18n-content
+ * translations to <code>code fragments</code> in the localized result. The backticks
+ * can be escaped by repeating them.
+ */
+
 const i18nAttrRegex = /^data-i18n-(?<target>.*)/;
 
 let _extension = null;
@@ -87,6 +93,48 @@ const updateSubtreeSet = (sourceDocument, node, selector, update) => {
     }
 };
 
+const appendCodeElement = (element, content, start) => {
+    const document = element.ownerDocument;
+    const codeElement = document.createElement("code");
+    const i = content.indexOf('`', start);
+    if (i === -1) {
+        codeElement.textContent = content.slice(start);
+    } else {
+        codeElement.textContent = content.slice(start, i);
+    }
+    element.appendChild(codeElement);
+    return i === -1 ? content.length : (i+1);
+};
+
+const setElementContent = (element, content) => {
+    let currentPiece = '';
+    let i = 0;
+    const document = element.ownerDocument;
+
+    while (i < content.length) {
+        let j = content.indexOf('`', i);
+        if (j === -1) j = content.length;
+        currentPiece += content.slice(i, j);
+
+        if (j+1 < content.length && content[j+1] === '`') {
+            currentPiece += '`';
+            i = j+1;
+        } else {
+            if (currentPiece !== '') {
+                const textNode = document.createTextNode(currentPiece);
+                element.appendChild(textNode);
+                currentPiece = '';
+            }
+            i = appendCodeElement(element, content, j+1);
+        }
+    }
+
+    if (currentPiece !== '') {
+        const textNode = document.createTextNode(currentPiece);
+        element.appendChild(textNode);
+    }
+};
+
 const updateSubtree = (sourceDocument, node) => {
     // Update element content (data-i18n-content) or attribute values based
     // on data-i18n-* attributes assigned to the element.
@@ -110,7 +158,7 @@ const updateSubtree = (sourceDocument, node) => {
             let { target } = i18nAttrRegex.exec(attr.name).groups;
 
             if (target == "content") {
-                ownerElement.textContent = value;
+                setElementContent(ownerElement, value);
             } else {
                 // Assume it is an attribute.
                 ownerElement.setAttribute(target, value);
