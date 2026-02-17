@@ -13,6 +13,8 @@ let filelist = {|
   LICENSE
   background.html
   background.js
+  options_storage.js
+  compose.js
   options
   images/icon-16px.png
   images/icon-32px.png

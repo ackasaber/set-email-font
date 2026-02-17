@@ -1,41 +1,12 @@
-async function getFontOptions() {
-    return await messenger.storage.local.get({
-        fontFamily: "Calibri, 'Droid Sans', Helvetica, sans-serif",
-        fontSize: "11pt"
-    });
-}
+import { getFontOptions } from "./options_storage.js";
 
-async function saveFontFamily(fontFamily) {
-    await messenger.storage.local.set({ fontFamily });
-}
-
-async function saveFontSize(fontSize) {
-    await messenger.storage.local.set({ fontSize });
-}
-
-async function dispatchRuntimeMessage(message, sender) {
-    if (!message || !message.hasOwnProperty("command"))
-        return;
-
-    const { command } = message;
-    const { tab: { id: tabId } } = sender;
-
-    switch (command) {
-    case "log":
-        console.log(`[tab ${tabId}] ${message.text}`);
-        return;
-
+async function commandHandler(message, sender) {
+    switch (message.command) {
     case "getFontOptions":
-        return await getFontOptions();
-
-    case "saveFontFamily":
-        await saveFontFamily(message.fontFamily);
-        return;
-
-    case "saveFontSize":
-        await saveFontSize(message.fontSize);
-        return;
+        return getFontOptions();
     }
+
+    return false;
 }
 
 messenger.scripting.compose.registerScripts([{
@@ -43,4 +14,10 @@ messenger.scripting.compose.registerScripts([{
     js: ["compose.js"]
 }]).catch(console.info);
 
-messenger.runtime.onMessage.addListener(dispatchRuntimeMessage)
+messenger.runtime.onMessage.addListener((message, sender) => {
+    if (message && message.hasOwnProperty("command")) {
+        return commandHandler(message, sender);
+    }
+
+    return false;
+})

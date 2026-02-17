@@ -1,14 +1,5 @@
-async function getFontOptions() {
-    return await messenger.runtime.sendMessage({ command: "getFontOptions" });
-}
-
-async function saveFontFamily(fontFamily) {
-    await messenger.runtime.sendMessage({ command: "saveFontFamily", fontFamily });
-}
-
-async function saveFontSize(fontSize) {
-    await messenger.runtime.sendMessage({ command: "saveFontSize", fontSize });
-}
+import { getFontOptions, saveFontFamily, saveFontSize } from '../options_storage.js';
+import * as i18n from '../i18n.mjs'
 
 async function restoreOptions() {
     const { fontFamily, fontSize } = await getFontOptions();
@@ -23,8 +14,6 @@ async function restoreOptions() {
         saveFontSize(e.target.value);
     })
 }
-
-import * as i18n from '../i18n.mjs'
 
 i18n.localizeDocument();
 restoreOptions();
