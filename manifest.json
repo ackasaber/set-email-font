@@ -16,16 +16,18 @@
         "storage"
     ],
     "icons": {
-        "64": "images/icon-64px.png",
-        "32": "images/icon-32px.png",
-        "16": "images/icon-16px.png"
+        "64": "images/font-64px.png",
+        "32": "images/font-32px.png",
+        "24": "images/font-24px.png",
+        "16": "images/font-16px.png"
     },
     "options_ui": {
         "page": "options/options.html",
         "open_in_tab": false
     },
     "background": {
-        "page": "background.html"
+        "scripts": ["background.js"],
+        "type": "module"
     },
     "default_locale": "en"
 }

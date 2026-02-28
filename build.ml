@@ -11,14 +11,11 @@ open Stdio
 let filelist = {|
   manifest.json
   LICENSE
-  background.html
   background.js
   options_storage.js
   compose.js
   options
-  images/icon-16px.png
-  images/icon-32px.png
-  images/icon-64px.png
+  images
   _locales
   i18n.mjs
 |}
