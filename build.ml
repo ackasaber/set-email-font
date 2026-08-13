@@ -1,30 +1,10 @@
 #use "topfind"
-#require "core"
-#require "core_unix"
-#require "stdio"
 #require "camlzip"
 #require "yojson"
 
-open Core
-open Stdio
-
-let filelist = {|
-  manifest.json
-  LICENSE
-  background.js
-  options_storage.js
-  compose.js
-  options
-  images
-  _locales
-  i18n.mjs
-|}
-
-(** Parse the input list *)
-let parse_filelist filelist =
-  String.split_lines filelist |>
-  List.map ~f:String.strip |>
-  List.filter ~f:(fun line -> not (String.is_empty line))
+(** Reads the list of files and folders to package *)
+let read_filelist filename =
+  In_channel.with_open_text filename In_channel.input_lines
 
 type manifest_info = { name: string; version: string }
 
@@ -32,10 +12,10 @@ type manifest_info = { name: string; version: string }
     Assumes the recommended id format {[AUTHOR.NAME@DOMAIN]} *)
 let parse_addon_name id =
   let prefix =
-    (match String.rsplit2 ~on:'@' id with
+    (match String.split_last ~sep:"@" id with
     | None -> id
     | Some (prefix, _) -> prefix) in
-  (match String.rsplit2 ~on:'.' prefix with
+  (match String.split_last ~sep:"." prefix with
   | None -> prefix
   | Some (_, name) -> name)
 
@@ -53,40 +33,27 @@ let addon_filename name version =
   name ^ "-" ^ version ^ ".xpi"
 
 (** Add a file or directory to the zip archive *)
-let rec add_entry zip filename =
-  let open Core_unix in
-  let s = stat filename in
-  match s.st_kind with
-  | S_REG ->
-    printf "Adding %s\n" filename;
-    Zip.copy_file_to_entry filename zip filename ~mtime:s.st_mtime
-  | S_DIR ->
-    printf "Adding %s\n" filename;
-    Zip.add_entry "" zip ~mtime:s.st_mtime
-      (if Filename.check_suffix filename "/"
-       then filename else filename ^ "/");
-    opendir filename |>
-    add_directory_entries zip filename
-  | _ -> ()
-
-and add_directory_entries zip parent dir =
-  let open Core_unix in
-  match readdir_opt dir with
-  | None -> closedir dir
-  | Some filename ->
-    (if not (String.equal filename ".") &&
-        not (String.equal filename "..") then
-      add_entry zip (Filename.concat parent filename));
-    add_directory_entries zip parent dir
+let rec add_entry zip path =
+  if Sys.is_regular_file path then begin
+    Printf.printf "Adding %s\n" path;
+    Zip.copy_file_to_entry path zip path;
+  end else if Sys.is_directory path then begin
+    Printf.printf "Adding %s\n" path;
+    Zip.add_entry "" zip (path ^ "/");
+    let entries = Sys.readdir path in
+    let add_dir_entry entry =
+      add_entry zip (Filename.concat path entry) in
+    Array.iter add_dir_entry entries
+  end
 
 let zip_files filename filelist =
   let zip = Zip.open_out filename in
-  List.iter ~f:(add_entry zip) filelist;
+  List.iter (add_entry zip) filelist;
   Zip.close_out zip
 
 let () =
   let { name; version } = extract_manifest_info "manifest.json" in
   let final_name = addon_filename name version in
-  parse_filelist filelist |>
+  read_filelist "package-files.txt" |>
   zip_files final_name
   

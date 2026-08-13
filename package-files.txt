@@ -1,0 +1,9 @@
+manifest.json
+LICENSE
+background.js
+options_storage.js
+compose.js
+options
+images
+_locales
+i18n.mjs
